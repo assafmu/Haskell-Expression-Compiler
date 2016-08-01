@@ -20,7 +20,7 @@ buildTree (stack,tokens) = buildTree $ ruleStep stack tokens
 asExpression :: Operator -> AST
 asExpression o = Expression (Operator o) []
 
--- tree so far, stack, remaining,    
+ -- stack, tokens left   
 ruleStep :: [AST] -> [Token] -> ([AST],[Token])
 ruleStep (x:[]) [] = ([x],[])
 ruleStep ((Expression CloseParen _):t2:(Expression OpenParen _):xs) tokens = (t2:xs,tokens)
