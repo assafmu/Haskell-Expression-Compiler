@@ -11,6 +11,7 @@ data Operator = Plus | Minus | Times | Divide deriving (Show,Eq,Read)
 
 data Token = Number Int| Operator Operator | OpenParen | CloseParen deriving (Show,Eq)
 
+--Not a direct map, due to numbers potentially taking more than 1 character
 tokenise :: String -> [Token]
 tokenise [] = []
 tokenise (' ':xs) = tokenise xs

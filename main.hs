@@ -2,7 +2,5 @@ import Data.Char
 import Tokeniser
 import AST
 import Emitter
-main = interact foo
-
-foo :: String -> String
-foo = emitTree . compile . tokenise
+-- flow is String to [Token] to AST to [Line] to [String] to String
+main = interact  $ unlines . (map outputLine) . emitTree . compile . tokenise
