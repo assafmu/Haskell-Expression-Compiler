@@ -8,10 +8,10 @@ where
 import Tokeniser
 import Data.Maybe
 
-data AST = Expression Token [AST] | Literal Token | Empty deriving  (Show,Eq)
+data AST = Expression Token [AST] | Literal Token | VarReference String | TReference Int | Empty deriving  (Show,Eq)
 
-compile :: [Token] -> AST
-compile l = head $ fst $ buildTree ([], l)
+compile :: [Token] -> (AST,String)
+compile (Reference r:Assign:l) = (head $ fst $ buildTree ([], l),r)
 
 buildTree ::  ([AST], [Token]) -> ([AST], [Token])
 buildTree (x:[],[]) = ([x],[])
@@ -30,10 +30,12 @@ ruleStep x@(t1:(Expression (Operator o) _):t2:xs) y@((Operator o2):ys) -- Next o
      | otherwise = (asExpression o2 : x,ys)
 ruleStep (t1:(Expression (Operator o) _):t2:xs) l = ((Expression (Operator o) [t2,t1]):xs,l) -- Next token either doesn't exist, or isn't an operator
 -- Shift rules - rules which read from the tokens list
-ruleStep l ((Operator o):xs) = (asExpression o: l,xs)
-ruleStep l ((Number x):xs) =  (Literal (Number x) : l,xs)
+ruleStep l (Operator o:xs) = (asExpression o: l,xs)
+ruleStep l (Number x:xs) =  (Literal (Number x) : l,xs)
+ruleStep l (Reference s:xs) = (VarReference s:l ,xs)
 ruleStep l (OpenParen:xs) = (Expression OpenParen [] : l,xs)
 ruleStep l (CloseParen:xs) = (Expression CloseParen [] : l,xs)
+
 
 
 priority :: Operator -> Int
