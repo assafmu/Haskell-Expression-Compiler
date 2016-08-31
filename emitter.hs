@@ -3,7 +3,8 @@ module Emitter
 emitTree,
 emitTrees,
 Line(..),
-outputLine
+outputLine,
+innerVar
 )
 where 
 import Tokeniser
