@@ -43,3 +43,4 @@ priority Plus = 2
 priority Minus = 3
 priority Times = 4
 priority Divide = 5
+priority Exp = 6
