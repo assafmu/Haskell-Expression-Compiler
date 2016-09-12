@@ -23,7 +23,7 @@ emitTree start (tree,s) = (result++[AssignmentLine s (innerVar $ i-1 ),PrintLine
 
 output' :: Int -> AST -> ([Line],Int)
 output' i (Literal (Number x)) = ([ConstantLine i x],i+1)
-output' i (VarReference s) = ([],i)
+output' i (VarReference s) = ([AssignmentLine (innerVar i) s],i+1)
 output' i (Expression (Operator o) (t1:t2:[])) = (before ++ [OperatorLine i'' (helper (i'-1) t1) o (helper (i''-1) t2)],i''+1) where
      (lines1,i') = output' i t1
      (lines2,i'') = output' i' t2
